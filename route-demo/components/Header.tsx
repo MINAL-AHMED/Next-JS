@@ -1,39 +1,42 @@
 // components/Header.js
-
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-const Header = () => {
+const headerList = [
+  {
+    label: "Home",
+    href: "/",
+  },
+  {
+    label: "About",
+    href: "/about",
+  },
+  {
+    label: "Blog",
+    href: "/blog",
+  },
+];
+
+function Header() {
+  const pathName = usePathname();
   return (
-    <header>
-      <nav
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "grey",
-          color: "#fff",
-        }}
-      >
-        <ul
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "2rem",
-            listStyleType: "none",
-            padding: 0,
-          }}
-        >
-          <li>
-            <Link href="/">Home</Link>
+    <ul className="md:flex-between flex w-full flex-col justify-center items-start md:flex-row gap-5 pt-10">
+      {headerList.map((link) => {
+        const isActive = pathName == link.href;
+        return (
+          <li
+            key={link.href}
+            className={`${
+              isActive && "text-green-500"
+            } flex-center whitespace-nowrap font-semibold`}
+          >
+            <Link href={link.href}>{link.label}</Link>
           </li>
-          <li>
-            <Link href="/about">About</Link>
-          </li>
-        </ul>
-      </nav>
-    </header>
+        );
+      })}
+    </ul>
   );
-};
+}
 
 export default Header;
